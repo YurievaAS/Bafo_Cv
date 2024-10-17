@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib as mlp
 import os
 import time
+
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import mediapipe as mp
 
@@ -14,8 +15,9 @@ while True:
     success, img = cap.read()
     if (not success):
         break
-    cv2.imshow("Hand Detector", detector.find_hands(img))
-    print(0, detector.hand_position(img)[0:5])
-    print(1, detector.hand_position(img, 1)[0:5]) #показывает 1-е 5 элементов, чтобы загружено не было
+    detector.find_hands(img)
+    cv2.imshow("Hand Detector", detector.hand_position(img)[0])
+    #print(0, detector.hand_position(img)[1][0:5])
+    #print(1, detector.hand_position(img, 1)[1][0:5]) #показывает 1-е 5 элементов, чтобы загружено не было
     if (cv2.waitKey(1) & 0xFF == ord('q')):
         break
