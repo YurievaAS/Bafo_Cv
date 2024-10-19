@@ -12,10 +12,11 @@ test = pd.read_csv("sign_mnist_train.csv")
 tr = train.iloc[:, 0]
 ts = test.iloc[:, 0]
 """
-
-def uns(x):
-    if x <= 0:
+def f(x):
+    if (x <= 0):
         return 0
+    elif (x >= 500):
+        return 500
     else:
         return x
 decrypt = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -31,42 +32,38 @@ decrypt = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
            'question', 'agree', 'disagree', 'cold', 'hot']
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands #доступ к функциональности
-hands = mpHands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.5)
-mp_drawing = mp.solutions.drawing_utils
-number_of_ims = 10
-#for label in range(26,33):
-while True:
-    #time.sleep(10)
-    #print("collecting images for " + decrypt[label])
-    for cur_img in range(number_of_ims):
+hands = mpHands.Hands(min_tracking_confidence=0.9, min_detection_confidence=0.2)
+
+for label in range(1):
+    print("collecting images for no")
+    cnt = 1000
+    while cnt < 1010:
         success, img = cap.read()
+        cv2.resize(img,(500,500))
         if (not success):
             break
-        cv2.imshow("data", img)
+        #qcv2.imshow("data", img)
         height, width, channels = img.shape
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = hands.process(img_rgb)
-        x = []
-        y = []
+        var = 250
         if results.multi_hand_landmarks: #если руки найдены
             for hand_landmarks in results.multi_hand_landmarks: #координаты для рисования квадрата
-                x.append(int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].x * width))
-                y.append(int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].y* height))
-                print(x, y)
-            ind = x.index(max(x))
-            ind1 = x.index(min(x))
-            div_x = max(x) - min(x)
-            div_y = max(y) - min(y)
-
-            var = 300
-            print(x, y)
-            #cv2.rectangle(img, , (193, 182, 255), 2)
-        cv2.imshow("data", img)
-        #time.sleep(10)
-        #img_save = 'C:/Users/arish/PycharmProjects/Bafo_Cv/img_for_train/'+ 'test_' + decrypt[label] + str(cur_img)+ '.png'
-        #cv2.imwrite(img_save, img)
+                x = int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].x * width)
+                y = int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].y * height)
+                print(x,y)
+            #cv2.rectangle(img,(min(x) - var,min(y) - var),(max(x) + var, max(y) + var), (193, 182, 255), 2)
+                img_save = 'C:/Users/arish/PycharmProjects/Bafo_Cv/img_for_train/no/'+ 'no' + str(cnt)+ '.png'
+                img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+                cv2.imwrite(img_save, img[f(x - var):f(x + var) ,f(y- var):f(y + var)])
+                print('written!\n')
+                print(cnt)
+                cnt += 1
+                time.sleep(0.2)
+    time.sleep(10)
     if (cv2.waitKey(1) & 0xFF == ord('q')):
         break
+
 
 """"
 0 2252
