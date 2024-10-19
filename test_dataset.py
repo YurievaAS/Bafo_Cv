@@ -5,13 +5,6 @@ import numpy as np
 import pandas as pd
 import os
 import time
-"""
-train = pd.read_csv("sign_mnist_train.csv")
-test = pd.read_csv("sign_mnist_train.csv")
-
-tr = train.iloc[:, 0]
-ts = test.iloc[:, 0]
-"""
 def f(x):
     if (x <= 0):
         return 0
@@ -36,8 +29,8 @@ hands = mpHands.Hands(min_tracking_confidence=0.9, min_detection_confidence=0.2)
 
 for label in range(1):
     print("collecting images for no")
-    cnt = 1000
-    while cnt < 1010:
+    cnt = 0
+    while cnt < 1000:
         success, img = cap.read()
         cv2.resize(img,(500,500))
         if (not success):
@@ -52,7 +45,6 @@ for label in range(1):
                 x = int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].x * width)
                 y = int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].y * height)
                 print(x,y)
-            #cv2.rectangle(img,(min(x) - var,min(y) - var),(max(x) + var, max(y) + var), (193, 182, 255), 2)
                 img_save = 'C:/Users/arish/PycharmProjects/Bafo_Cv/img_for_train/no/'+ 'no' + str(cnt)+ '.png'
                 img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
                 cv2.imwrite(img_save, img[f(x - var):f(x + var) ,f(y- var):f(y + var)])
