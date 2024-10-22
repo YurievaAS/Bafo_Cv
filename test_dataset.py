@@ -14,7 +14,7 @@ def f(x):
         return x
 decrypt = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-           'hello', 'thank you', 'please', 'yes', 'no', 'sorry', 'help', 'more',
+           'hello', 'yes','no', 'please','thank you' , 'sorry', 'help', 'more',
            'love', 'friend', 'family', 'sorry', 'me', 'mine', 'her/ his', 'she/ he',
            'food', 'water', 'good', 'bad', 'happy', 'sad', 'like', 'want', 'need',
            'time', 'where', 'who', 'what', 'why', 'how', 'have', 'come', 'go', 'stop',
@@ -28,24 +28,23 @@ mpHands = mp.solutions.hands #доступ к функциональности
 hands = mpHands.Hands(min_tracking_confidence=0.9, min_detection_confidence=0.2)
 
 for label in range(1):
-    print("collecting images for no")
-    cnt = 0
+    print("collecting images for I")
+    cnt = 107
     while cnt < 1000:
         success, img = cap.read()
-        cv2.resize(img,(500,500))
+        #cv2.resize(img,(500,500))
         if (not success):
             break
-        #qcv2.imshow("data", img)
         height, width, channels = img.shape
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = hands.process(img_rgb)
-        var = 250
+        var = 100
         if results.multi_hand_landmarks: #если руки найдены
             for hand_landmarks in results.multi_hand_landmarks: #координаты для рисования квадрата
                 x = int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].x * width)
                 y = int(hand_landmarks.landmark[mpHands.HandLandmark.MIDDLE_FINGER_MCP].y * height)
                 print(x,y)
-                img_save = 'C:/Users/arish/PycharmProjects/Bafo_Cv/img_for_train/no/'+ 'no' + str(cnt)+ '.png'
+                img_save = 'C:/Users/arish/PycharmProjects/Bafo_Cv/img_for_train/i_me/'+ 'i' + str(cnt)+ '.png'
                 img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
                 cv2.imwrite(img_save, img[f(x - var):f(x + var) ,f(y- var):f(y + var)])
                 print('written!\n')
