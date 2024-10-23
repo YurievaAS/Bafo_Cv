@@ -1,12 +1,8 @@
-import hand_detector_class as hdc
+from main_funcs import hand_detector_class as hdc
 import cv2
-import numpy as np
-import matplotlib as mlp
 import os
-import time
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-import mediapipe as mp
 
 detector = hdc.HandDetector()
 cap = cv2.VideoCapture(0)
