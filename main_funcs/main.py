@@ -1,4 +1,5 @@
 from main_funcs import hand_detector_class as hdc
+from main_funcs import ui
 import cv2
 import os
 
@@ -17,3 +18,4 @@ while True:
     #print(1, detector.hand_position(img, 1)[1][0:5]) #показывает 1-е 5 элементов, чтобы загружено не было
     if (cv2.waitKey(1) & 0xFF == ord('q')):
         break
+

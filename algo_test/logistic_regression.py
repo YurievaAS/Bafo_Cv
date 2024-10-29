@@ -3,10 +3,10 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-X_train = pd.read_csv('C:/Users/arish/PycharmProjects/Bafo_Cv/dataset/data_train.csv')
+X_train = pd.read_csv('train_data.csv')
 y_train = X_train.iloc[:, 0]
 X_train = X_train.drop('label', axis=1)
-X_test = pd.read_csv('C:/Users/arish/PycharmProjects/Bafo_Cv/dataset/data_test.csv')
+X_test = pd.read_csv('test_data.csv')
 y_test = X_test.iloc[:, 0]
 X_test = X_test.drop('label', axis=1)
 

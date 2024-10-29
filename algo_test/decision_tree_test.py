@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
-
 df = pd.read_csv('C:/Users/arish/PycharmProjects/Bafo_Cv/main_funcs/dataset.csv')
 
 X, y = df.iloc[:, 1: ], df.iloc[:, 0]

@@ -4,7 +4,7 @@ import time
 import keyboard
 decrypt = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j_0', 'j_1', 'k', 'l', 'm',
            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z_0','z_1',
-           'hello', 'yes_0','yes_1','no','i_me','help','she_he','please','thank you' , 'sorry']
+           'hello', 'yes','no','i_me','help','she_he']
 cap = cv2.VideoCapture(0)
 print("collecting images for j_letter")
 cnt = 0
