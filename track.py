@@ -15,7 +15,7 @@ class HandsTrack:
         self.mp_draw = mp.solutions.drawing_utils
         self.hands = self.mp_hands.Hands(self.mode, self.maxHands,self.model_complexity, self.min_detection_confidence, self.min_tracking_confidence)
     
-        self.isEmpty = False
+        self.isEmpty = True
 
     def tracking(self, img):
         h, w = img.shape[0:2]
@@ -36,8 +36,10 @@ class HandsTrack:
                 img = img[y_min:y_max,x_min:x_max]
                 img = cv2.resize(img,(28,28), interpolation=cv2.INTER_LINEAR)
                 img = cv2.cvtColor(img[: ,::-1],cv2.COLOR_RGB2GRAY)
+                self.isEmpty = False
                 return img
-        return cv2.cvtColor(cv2.resize(img,(28,28), interpolation=cv2.INTER_LINEAR),cv2.COLOR_RGB2GRAY)
+        self.isEmpty = True
+        return img
     
         
 
