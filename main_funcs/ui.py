@@ -39,24 +39,23 @@ class MainWindow(QMainWindow):
         layout.setSpacing(10)
         layout.setContentsMargins(10, 10, 10, 10)
 
+        ''''
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(24)  # Обновление каждые 24 мс (примерно 24 кадра в секунду)
 
         self.cap = cv2.VideoCapture(0)
+        '''
 
-    def update_frame(self):
+
+    def update_frame(self, img):
         width = self.video.width()
         height = self.video.height()
-        success, img = self.cap.read()
         img = cv2.resize(img, (width,height))
-        if success:
-            image = QImage(img, img.shape[1], img.shape[0],
+        image = QImage(img, img.shape[1], img.shape[0],
                                QImage.Format_RGB888).rgbSwapped()
-            pixmap = QPixmap.fromImage(image)
-            self.video.setPixmap(pixmap)
-        else:
-            print("Ошибка получения кадра")
+        pixmap = QPixmap.fromImage(image)
+        self.video.setPixmap(pixmap)
 
     def set_text(self, text):
         self.text += text
@@ -65,13 +64,13 @@ class MainWindow(QMainWindow):
     def clear_text(self):
         self.input.setText('')
 
-
-
-
+''''
 app = QApplication(sys.argv)
 window = MainWindow()
 window.set_text('aaaa')
 window.show()
 sys.exit(app.exec())
+'''
+
 
 
