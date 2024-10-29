@@ -1,59 +1,77 @@
 import sys
 import cv2
-from PyQt6.QtCore import QSize, Qt, QTimer
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QLabel, QVBoxLayout, QLineEdit
-from PyQt6.QtGui import QImage, QPixmap
+from PyQt5.QtCore import QSize, Qt, QTimer
+from PyQt5.QtWidgets import \
+    QApplication, QMainWindow, QPushButton, \
+    QWidget, QLabel,QHBoxLayout, QVBoxLayout
+from PyQt5.QtGui import QImage, QPixmap
 
 class MainWindow(QMainWindow):
     #конструктор
     def __init__(self):
         super(MainWindow, self).__init__() #вызывает конструктор базового класса
-
         self.setWindowTitle("Sign Language recognition")
-        self.capture = cv2.VideoCapture(0)
-        if  not self.capture.isOpened():  # Проверка, была ли веб-камера открыта
-            print("не удалось открыть веб-камеру")
-            sys.exit()
-        # Создаем QLabel для отображения видео
-        self.video_label = QLabel(self)
-        self.video_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.setFixedSize(QSize(1000,800))
 
-        # Создаем вертикальный layout
-        layout = QVBoxLayout()
-        layout.addWidget(self.video_label)
-        self.setLayout(layout)
+        self.clear_input_button = QPushButton('Clear')
+        self.clear_input_button.setStyleSheet("background-color:pink")
+        self.clear_input_button.clicked.connect(lambda  : self.clear_text())
+
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout(central_widget)
+        layout_1 = QHBoxLayout()
+
+        self.video = QLabel()
+        self.video.setStyleSheet("background-color:pink")
+
+        self.input = QLabel()
+        self.input.setStyleSheet("background-color:lightgray")
+        self.text = ''
+
+
+        layout.addWidget(self.video, stretch=2)
+        layout.addLayout(layout_1, stretch=1)
+        layout_1.addWidget(self.input, stretch=6)
+        layout_1.addWidget(self.clear_input_button, stretch=1)
+        #layout.addWidget(self.input, stretch=1)
+
+        layout.setSpacing(10)
+        layout.setContentsMargins(10, 10, 10, 10)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(24)  # Обновление каждые 24 мс (примерно 24 кадра в секунду)
 
+        self.cap = cv2.VideoCapture(0)
+
     def update_frame(self):
-        success, frame = self.capture.read()
+        width = self.video.width()
+        height = self.video.height()
+        success, img = self.cap.read()
+        img = cv2.resize(img, (width,height))
         if success:
-            print("удалось открыть веб-камеру")
-            # Преобразование изображения в формат QImage
-            image = QImage(frame, frame.shape[1], frame.shape[0],
-                           QImage.Format_RGB888).rgbSwapped()
+            image = QImage(img, img.shape[1], img.shape[0],
+                               QImage.Format_RGB888).rgbSwapped()
             pixmap = QPixmap.fromImage(image)
-            self.video_label.setPixmap(pixmap)
+            self.video.setPixmap(pixmap)
         else:
             print("Ошибка получения кадра")
 
-    def closeEvent(self, event):
-        # Выключение веб-камеры при закрытии приложения
-        self.capture.release()
-        super().closeEvent(event)
+    def set_text(self, text):
+        self.text += text
+        self.input.setText(self.text)
+
+    def clear_text(self):
+        self.input.setText('')
+
+
+
 
 app = QApplication(sys.argv)
 window = MainWindow()
+window.set_text('aaaa')
 window.show()
-#запустить цикл событий
 sys.exit(app.exec())
 
 
-''''
-        self.capture = cv2.VideoCapture(0)
-        if not self.capture.isOpened():
-            print("Не удалось открыть веб-камеру")
-            sys.exit()
-        '''
